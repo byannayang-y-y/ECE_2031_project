@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Quartus generated and working directories
+db/
+incremental_db/
+output_files/
+simulation/
+
+# Quartus user-session and backup files
+*.qws
+*.bak
+*.orig
+*.tmp
