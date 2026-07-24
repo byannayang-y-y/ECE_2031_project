@@ -1,0 +1,88 @@
+WIDTH=16;
+DEPTH=2048;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+0000: 1800; --     LOADI  0
+0001: 1047; --     STORE  Score
+0002: 9804; --     OUT    Hex0
+0003: 9805; --     OUT    Hex1
+0004: 1801; --     LOADI  1
+0005: 1048; --     STORE  TargetMask
+0006: 1800; --     LOADI  0
+0007: 1049; --     STORE  TargetNumber
+0008: 9821; --     OUT    SW_MASK
+0009: 084E; --     LOAD   AllSwitchBits
+000A: 9823; --     OUT    SW_CLEAR
+000B: 9020; --     IN     SW_CURRENT
+000C: 9801; --     OUT    LEDs
+000D: 780B; --     JNZ    WaitAllDown
+000E: 1800; --     LOADI  0
+000F: 9821; --     OUT    SW_MASK
+0010: 084E; --     LOAD   AllSwitchBits
+0011: 9823; --     OUT    SW_CLEAR
+0012: 9020; --     IN     SW_CURRENT
+0013: 9801; --     OUT    LEDs
+0014: 104A; --     STORE  SwitchState
+0015: 384D; --     AND    StartSwitch
+0016: 7819; --     JNZ    CheckStart
+0017: 8038; --     CALL   AdvanceTarget
+0018: 5812; --     JUMP   RandomizeTarget
+0019: 084A; --     LOAD   SwitchState
+001A: 284D; --     SUB    StartSwitch
+001B: 780B; --     JNZ    WaitAllDown
+001C: 0849; --     LOAD   TargetNumber
+001D: 9804; --     OUT    Hex0
+001E: 0848; --     LOAD   TargetMask
+001F: 9821; --     OUT    SW_MASK
+0020: 9020; --     IN     SW_CURRENT
+0021: 9801; --     OUT    LEDs
+0022: 384D; --     AND    StartSwitch
+0023: 7820; --     JNZ    WaitStartRelease
+0024: 084E; --     LOAD   AllSwitchBits
+0025: 9823; --     OUT    SW_CLEAR
+0026: 9802; --     OUT    Timer
+0027: 9020; --     IN     SW_CURRENT
+0028: 9801; --     OUT    LEDs
+0029: 9022; --     IN     SW_EVENTS
+002A: 3848; --     AND    TargetMask
+002B: 7027; --     JZERO  WaitForTarget
+002C: 9002; --     IN     Timer
+002D: 104B; --     STORE  RoundTime
+002E: 2047; --     ADD    Score
+002F: 1047; --     STORE  Score
+0030: 9805; --     OUT    Hex1
+0031: 084B; --     LOAD   RoundTime
+0032: 9804; --     OUT    Hex0
+0033: 1800; --     LOADI  0
+0034: 9821; --     OUT    SW_MASK
+0035: 084E; --     LOAD   AllSwitchBits
+0036: 9823; --     OUT    SW_CLEAR
+0037: 580B; --     JUMP   WaitAllDown
+0038: 0848; --     LOAD   TargetMask
+0039: 384C; --     AND    Bit7
+003A: 7842; --     JNZ    WrapTarget
+003B: 0848; --     LOAD   TargetMask
+003C: 5001; --     SHIFT  1
+003D: 1048; --     STORE  TargetMask
+003E: 0849; --     LOAD   TargetNumber
+003F: 3001; --     ADDI   1
+0040: 1049; --     STORE  TargetNumber
+0041: 8800; --     RETURN
+0042: 1801; --     LOADI  1
+0043: 1048; --     STORE  TargetMask
+0044: 1800; --     LOADI  0
+0045: 1049; --     STORE  TargetNumber
+0046: 8800; --     RETURN
+0047: 0000; -- Score:          DW 0
+0048: 0001; -- TargetMask:     DW 1
+0049: 0000; -- TargetNumber:   DW 0
+004A: 0000; -- SwitchState:    DW 0
+004B: 0000; -- RoundTime:      DW 0
+004C: 0080; -- Bit7:           DW &H0080
+004D: 0200; -- StartSwitch:    DW &H0200
+004E: 03FF; -- AllSwitchBits:  DW &H03FF
+[004F..07FF] : 0000; -- [empty memory]
+END;
