@@ -1,14 +1,15 @@
-# macOS
-.DS_Store
-
-# Quartus generated and working directories
+# Quartus-generated build and simulation directories
 db/
 incremental_db/
 output_files/
 simulation/
 
-# Quartus user-session and backup files
+# Generated programming and workspace files
+*.sof
+*.pof
+*.jdi
 *.qws
-*.bak
-*.orig
-*.tmp
+modelsim.ini
+
+# Operating-system metadata
+.DS_Store

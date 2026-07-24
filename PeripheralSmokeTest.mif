@@ -1,0 +1,32 @@
+WIDTH=16;
+DEPTH=2048;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+0000: 0814; --     LOAD   MonitoredMask
+0001: 9821; --     OUT    SW_MASK
+0002: 0816; --     LOAD   AllSwitchBits
+0003: 9823; --     OUT    SW_CLEAR
+0004: 9020; --     IN     SW_CURRENT
+0005: 9801; --     OUT    LEDs
+0006: 3815; --     AND    ClearSwitch
+0007: 780B; --     JNZ    ClearEvents
+0008: 9022; --     IN     SW_EVENTS
+0009: 9804; --     OUT    Hex0
+000A: 5804; --     JUMP   MainLoop
+000B: 9022; --     IN     SW_EVENTS
+000C: 9823; --     OUT    SW_CLEAR
+000D: 9020; --     IN     SW_CURRENT
+000E: 9801; --     OUT    LEDs
+000F: 3815; --     AND    ClearSwitch
+0010: 780D; --     JNZ    WaitForClearRelease
+0011: 9022; --     IN     SW_EVENTS
+0012: 9804; --     OUT    Hex0
+0013: 5804; --     JUMP   MainLoop
+0014: 01FF; -- MonitoredMask: DW &B0111111111
+0015: 0200; -- ClearSwitch:   DW &B1000000000
+0016: 03FF; -- AllSwitchBits: DW &B1111111111
+[0017..07FF] : 0000; -- [empty memory]
+END;
